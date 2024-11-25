@@ -1,0 +1,83 @@
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content">
+    <h3>Editar Planta</h3>
+    <form *ngIf="planta" (ngSubmit)="editarPlanta()" #plantaForm="ngForm">
+      <div class="form">
+        <div class="form-row">
+          <div class="form-group">
+            <h4>Nombre planta</h4>
+            <input
+              type="text"
+              id="nombre"
+              [(ngModel)]="planta.nombre"
+              name="nombre"
+              disabled
+              placeholder="Nombre Planta">
+          </div>
+          <div class="form-group">
+            <h4>País</h4>
+            <input
+              type="text"
+              id="pais"
+              [(ngModel)]="planta.pais"
+              name="pais"
+              disabled
+              placeholder="País">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <h4>Lecturas</h4>
+            <input
+              type="number"
+              id="lecturas"
+              [(ngModel)]="planta.lectura"
+              name="lectura"
+              required
+              min="0"
+              placeholder="Ingrese">
+          </div>
+          <div class="form-group">
+            <h4>Alertas medias</h4>
+            <input
+              type="number"
+              id="alertasMedias"
+              [(ngModel)]="planta.alertaMedia"
+              name="alertaMedia"
+              required
+              min="0"
+              placeholder="Ingrese">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <h4>Alertas rojas</h4>
+            <input
+              type="number"
+              id="alertasRojas"
+              [(ngModel)]="planta.alertaRoja"
+              name="alertaRoja"
+              required
+              min="0"
+              placeholder="Ingrese">
+          </div>
+          <div class="form-group">
+            <h4>Sensores deshabilitados</h4>
+            <input
+              type="number"
+              id="sensoresDeshabilitados"
+              [(ngModel)]="planta.sensorDeshabilitado"
+              name="sensorDeshabilitado"
+              required
+              min="0"
+              placeholder="Ingrese">
+          </div>
+        </div>
+      </div>
+      <div class="botones">
+        <button class="cancelar-btn" (click)="cerrar()">Cancelar</button>
+        <button class="editar-btn" type="submit" [disabled]="plantaForm.invalid">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

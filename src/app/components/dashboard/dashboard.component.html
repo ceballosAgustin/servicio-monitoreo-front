@@ -1,0 +1,267 @@
+<div class="dashboard">
+  <app-sidebar></app-sidebar>
+  <div class="dashboard-header">
+      <h1 class="titulo">Monitoreo global</h1>
+      <div class="header-derecho">
+          <div class="iconos">
+              <img class="icono-idioma" src="assets\images\dashboard\idioma.svg" alt="idioma">
+              <img class="icono-ajustes" src="assets\images\dashboard\ajustes.svg" alt="ajustes">
+              <img class="icono-notificacion" src="assets\images\dashboard\notificacion.svg" alt="notificacion">
+          </div>
+          <span class="usuario"> {{ nombreUsuario }} </span>
+      </div>
+  </div>
+  <div class="dashboard-content">
+      <div class="titulo-responsive">Resumen de planta</div>
+      <div class="dashboard-content">
+        <div class="resumen-container">
+          <div class="resumen-card">
+            <div class="resumen-text">
+                <h2>Lecturas OK</h2>
+                <p>{{ lecturas }}</p>
+              </div>
+              <img class="resumen-icon" src="\assets\images\dashboard\lecturas.svg" alt="lectura">
+            </div>
+            <div class="resumen-card">
+            <div class="resumen-text">
+                <h2>Alertas medias</h2>
+                <p>{{ alertasMedias }}</p>
+              </div>
+              <img class="resumen-icon" src="\assets\images\dashboard\a-medias.svg" alt="a-medias">
+            </div>
+            <div class="resumen-card">
+            <div class="resumen-text">
+                <h2>Alertas rojas</h2>
+                <p>{{ alertasRojas }}</p>
+              </div>
+              <img class="resumen-icon" src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas">
+            </div>
+            <div class="resumen-card">
+            <div class="resumen-text">
+                <h2>Sensores deshabilitados</h2>
+                <p>{{ sensoresDeshabilitados }}</p>
+              </div>
+              <img class="resumen-icon" src="\assets\images\dashboard\sensores-des.svg" alt="sensores-des">
+          </div>
+        </div>
+
+        <div class="plantas-container">
+          <div class="plantas-header">
+            <h2 class="plantas-text">Plantas</h2>
+            <button class="btn-crear" (click)="abrirModalCrear()">+ Crear nueva planta</button>
+            <app-crear-planta *ngIf="mostrarModalCrear" (cerrarModal)="cerrarModalCrear()" (plantaCreada)="actualizarPlantas()"></app-crear-planta>
+          </div>
+          <div class="division"></div>
+          <div class="card-plantas">
+            <div class="table-container">
+              <table class="tabla">
+                <thead>
+                  <tr class="nombres-tabla">
+                    <th>País</th>
+                    <th>Nombre de la planta</th>
+                    <th>Lecturas</th>
+                    <th>Alertas medias</th>
+                    <th>Alertas rojas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="plantas-cuerpo">
+                  <tr *ngFor="let planta of plantas | paginate: { itemsPerPage: 3, currentPage: p}">
+                    <td class="pais">
+                      <img [src]="planta.bandera" alt="bandera" class="bandera">
+                      <p>{{ planta.pais }}</p>
+                    </td>
+                    <td>{{ planta.nombre }}</td>
+                    <td>{{ planta.lectura }}</td>
+                    <td>{{ planta.alertaMedia }}</td>
+                    <td>{{ planta.alertaRoja }}</td>
+                    <td>
+                      <div class="acciones">
+                        <button class="btn-accion" (click)="toggleDropdown(planta.idPlanta)">
+                          <img src="\assets\images\dashboard\acciones.svg" alt="acciones">
+                        </button>
+                        <div *ngIf="planta.idPlanta === dropdownOpen" class="dropdown-menu">
+                          <button class="dropdown-item" (click)="abrirModalEditar(planta)">
+                            Editar
+                          </button>
+                          <button class="dropdown-item" (click)="confirmarEliminacion(planta)">
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+        <app-confirmar-eliminacion *ngIf="mostrarConfirmacion" (confirmar)="eliminarPlantaConfirmado()" (cancelar)="cancelarEliminacion()"></app-confirmar-eliminacion>
+        <app-editar-planta *ngIf="mostrarModalEditar" [planta]="plantaSeleccionada" (cerrarModal)="cerrarModalEditar()" (plantaEditada)="actualizarPlantasYResumen()"></app-editar-planta>
+
+        <div class="datos-container">
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Temperatura</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\temperatura.svg" alt="temperatura" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Presión</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\presion.svg" alt="presion" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Viento</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\viento.svg" alt="viento" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Niveles</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\niveles.svg" alt="niveles" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Energía</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\energia.svg" alt="energia" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Tensión</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\tension.svg" alt="tension" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Monóxido de carbono</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\mono-carbono.svg" alt="mono-carbono" class="tipo-icon">
+          </div>
+          <div class="datos-card">
+            <div class="datos-content">
+              <h3 class="datos-text">Otros gases</h3>
+              <div class="card-datos-container">
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\lecturas.svg" alt="lecturas" class="datos-icon">
+                  <p>100</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-medias.svg" alt="a-medias" class="datos-icon">
+                  <p>20</p>
+                </div>
+                <div class="datos-numeros">
+                  <img src="\assets\images\dashboard\a-rojas.svg" alt="a-rojas" class="datos-icon">
+                  <p>3</p>
+                </div>
+              </div>
+            </div>
+            <img src="\assets\images\dashboard\datos\gases.svg" alt="gases" class="tipo-icon">
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

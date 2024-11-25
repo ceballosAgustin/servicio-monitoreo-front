@@ -1,0 +1,64 @@
+<div class="registro-container">
+  <div class="lado-izq">
+    <img src="assets\images\login-registro\fondo-login.png" alt="fondo-login" class="fondo-login">
+    <div class="textos-izq">
+      <h1>Registrarse</h1>
+      <p>Nos alegra que nos hayas elegido y estamos listos para atender tus necesidades.
+        Regístrate y empieza a aprovechar al máximo nuestra plataforma.</p>
+        <div class="iconos-info">
+          <img src="assets\images\login-registro\monitoreo-izq.svg" alt="monitoreo-izq" class="iconos-izq">
+          <div class="textos-info">
+            <p>Monitoreo integral</p>
+            <small>Administra, monitorea mutiples plantas de forma centralizada</small>
+          </div>
+        </div>
+      <div class="iconos-info">
+        <img src="assets\images\login-registro\notificaciones-izq.svg" alt="notificaciones-izq" class="iconos-izq">
+        <div class="textos-info">
+          <p>Notificaciones en tiempo real</p>
+          <small>Recibi notificaciones en tiempo real sobre las mediciones</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lado-der">
+    <form [formGroup]="registroForm" (ngSubmit)="onRegistro()" class="registro-form">
+      <h1>Portal de monitoreo</h1>
+      <h2>Registrarse</h2>
+      <div class="form-group">
+        <input formControlName="email" class="input-form" type="text" placeholder="Luciano@email.com">
+        <div style="color: #F44336;" *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.invalid">
+          <small *ngIf="registroForm.get('email')?.errors?.['required']">El email es requerido</small>
+          <small *ngIf="registroForm.get('email')?.errors?.['email']">El formato del email debe ser válido</small>
+        </div>
+        <input formControlName="clave" class="input-form" type="password" placeholder="Contraseña">
+        <div style="color: #F44336;" *ngIf="registroForm.get('clave')?.touched && registroForm.get('clave')?.invalid">
+          <small *ngIf="registroForm.get('clave')?.errors?.['required']">La clave es requerida</small>
+          <small *ngIf="registroForm.get('clave')?.errors?.['minLength']">La contraseña debe ser superior a 8 caracteres</small>
+          <small *ngIf="registroForm.get('clave')?.errors?.['maxLength']">La contraseña debe ser inferior a 256 caracteres</small>
+        </div>
+        <input formControlName="nombre" class="input-form" type="text" placeholder="Nombre">
+        <div style="color: #F44336;" *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid">
+          <small *ngIf="registroForm.get('nombre')?.errors?.['required']">El nombre es requerido</small>
+          <small *ngIf="registroForm.get('nombre')?.errors?.['minLength']">El nombre debe ser superior a 2 caracteres</small>
+          <small *ngIf="registroForm.get('nombre')?.errors?.['maxLength']">El nombre debe ser inferior a 128 caracteres</small>
+        </div>
+        <input formControlName="apellido" class="input-form" type="text" placeholder="Apellido">
+        <div style="color: #F44336;" *ngIf="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.invalid">
+          <small *ngIf="registroForm.get('apellido')?.errors?.['required']">El apellido es requerido</small>
+          <small *ngIf="registroForm.get('apellido')?.errors?.['minLength']">El apellido debe ser superior a 2 caracteres</small>
+          <small *ngIf="registroForm.get('apellido')?.errors?.['maxLength']">El apellido debe ser inferior a 128 caracteres</small>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button type="submit" class="btn-registro">Registrarse</button>
+      </div>
+      <p>¿Ya tienes una cuenta?
+        <a class="login-link" (click)="goToLogin()">Inicia sesión</a>
+      </p>
+      <p class="politica-condiciones">
+        Protegido por reCAPTCHA y sujeto a la <a> Política de Privacidad </a> y <a>Condiciones.</a>
+      </p>
+    </form>
+  </div>
+</div>

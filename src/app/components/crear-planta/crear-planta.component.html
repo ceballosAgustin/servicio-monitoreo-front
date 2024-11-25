@@ -1,0 +1,38 @@
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content">
+    <h3>Crear nueva planta</h3>
+    <form (ngSubmit)="crearPlanta()" #plantaForm="ngForm">
+      <div class="form">
+        <div class="form-group">
+          <h4>Nombre planta</h4>
+          <input
+            type="text"
+            id="nombre"
+            [(ngModel)]="planta.nombre"
+            name="nombre"
+            required
+            placeholder="Ingrese nombre">
+        </div>
+        <div class="form-group">
+          <h4>País</h4>
+          <div class="dropdown">
+            <div class="dropdown-selected" (click)="toggleDropdown()">
+              <img *ngIf="planta.pais" [src]="getBandera(planta.pais)" alt="Bandera" class="bandera-icon">
+              {{ planta.pais || 'Selecciona un país' }}
+            </div>
+            <ul *ngIf="isDropdownOpen" class="dropdown-opciones">
+              <li *ngFor="let pais of paises" (click)="seleccionarPais(pais.nombre)">
+                <img [src]="pais.bandera" alt="Bandera" class="bandera-icon">
+                {{ pais.nombre }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="botones">
+        <button class="cancelar-btn" (click)="cerrar()">Cancelar</button>
+        <button class="crear-btn" type="submit" [disabled]="plantaForm.invalid">Crear</button>
+      </div>
+    </form>
+  </div>
+</div>

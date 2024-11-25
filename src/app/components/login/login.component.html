@@ -1,0 +1,53 @@
+<div class="login-container">
+  <div class="lado-izq">
+    <img src="assets\images\login-registro\fondo-login.png" alt="fondo-login" class="fondo-login">
+    <div class="textos-izq">
+      <h1>Iniciar sesión</h1>
+      <p>Nos alegra tenerte de vuelta y estamos listos para atender tus necesidades.
+        Inicia sesión y continúa aprovechando al máximo nuestra plataforma.</p>
+        <div class="iconos-info">
+          <img src="assets\images\login-registro\monitoreo-izq.svg" alt="monitoreo-izq" class="iconos-izq">
+          <div class="textos-info">
+            <p>Monitoreo integral</p>
+            <small>Administra, monitorea mutiples plantas de forma centralizada</small>
+          </div>
+        </div>
+      <div class="iconos-info">
+        <img src="assets\images\login-registro\notificaciones-izq.svg" alt="notificaciones-izq" class="iconos-izq">
+        <div class="textos-info">
+          <p>Notificaciones en tiempo real</p>
+          <small>Recibi notificaciones en tiempo real sobre las mediciones</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lado-der">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <h1>Portal de monitoreo</h1>
+      <h2>Iniciar sesión</h2>
+      <div class="form-group">
+        <input formControlName="email" class="input-form" type="text" placeholder="Luciano@email.com">
+        <div style="color: #F44336;" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">El email es requerido</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['email']">El formato del email debe ser válido</small>
+        </div>
+        <input formControlName="clave" class="input-form" type="password" placeholder="Contraseña">
+        <div style="color: #F44336;" *ngIf="loginForm.get('clave')?.touched && loginForm.get('clave')?.invalid">
+          <small *ngIf="loginForm.get('clave')?.errors?.['required']">La clave es requerida</small>
+          <small *ngIf="loginForm.get('clave')?.errors?.['minLength']">La contraseña debe ser superior a 8 caracteres</small>
+          <small *ngIf="loginForm.get('clave')?.errors?.['maxLength']">La contraseña debe ser inferior a 256 caracteres</small>
+        </div>
+      </div>
+      <div class="form-footer">
+        <p class="pass-olvidada">¿Olvidaste tu contraseña?</p>
+        <button type="submit" class="btn-login">Iniciar sesión</button>
+      </div>
+      <p>¿No tienes cuenta?
+        <a class="registro-link" (click)="goToRegistro()">Regístrate aquí</a>
+      </p>
+      <p class="politica-condiciones">
+        Protegido por reCAPTCHA y sujeto a la <a> Política de Privacidad </a> y <a>Condiciones.</a>
+      </p>
+    </form>
+  </div>
+</div>
